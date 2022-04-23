@@ -4,16 +4,23 @@ lemmatizer = WordNetLemmatizer()
 import pickle
 import numpy as np
 from tensorflow.keras.models import load_model
+import os
 
 import json
 import random
-
+nltk.download('punkt')
 class AI_HELPER:
     def __init__(self):
-        self.intents = json.loads(open('intents.json').read())
-        self.words = pickle.load(open('words.pkl','rb'))
-        self.classes = pickle.load(open('classes.pkl','rb'))
-        self.model = load_model('ai_model.h5', compile = False)
+        my_dir = os.path.dirname(__file__)
+        json_file_path = os.path.join(my_dir, 'intents.json')
+        words_file_path = os.path.join(my_dir, 'words.pkl')
+        classes_file_path = os.path.join(my_dir, 'classes.pkl')
+        model_file_path = os.path.join(my_dir,'ai_model.h5')
+
+        self.intents = json.loads(open(json_file_path).read())
+        self.words = pickle.load(open(words_file_path,'rb'))
+        self.classes = pickle.load(open(classes_file_path,'rb'))
+        self.model = load_model(model_file_path, compile = False)
         pass
     
     def clean_up_sentence(self, sentence):
